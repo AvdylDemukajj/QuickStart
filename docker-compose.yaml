@@ -18,4 +18,19 @@ services:
     volumes:
       - ./docker-volumes/data:/data/db
   
- 
+  mysql:
+    container_name: mysql_container
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_USER=
+      - MYSQL_DATABASE=
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_PASSWORD=
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./docker-volumes/mysql:/var/lib/mysql
+  
+
