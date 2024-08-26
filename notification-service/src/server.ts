@@ -6,6 +6,7 @@ import { Application } from 'express';
 import http from 'http';
 import { healthRoutes } from './routes';
 import { checkConnection } from './elasticsearch';
+import { createConnection } from './queues/connection';
 
 const SERVER_PORT = 4001;
 const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'notificationServer', 'debug');
@@ -14,10 +15,11 @@ export function start(app:Application): void {
     app.use('', healthRoutes);
     startQueue();
     startElasticSearch();
+    startQueue();
 }
 
 async function startQueue(): Promise<void>{
-
+    createConnection();
 }
 
 function startElasticSearch(): void {
