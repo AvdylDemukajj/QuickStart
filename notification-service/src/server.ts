@@ -5,14 +5,15 @@ import { winstonLogger } from '@quickstartfreelancing/common';
 import { Application } from 'express';
 import http from 'http';
 import { healthRoutes } from './routes';
+import { checkConnection } from './elasticsearch';
 
 const SERVER_PORT = 4001;
 const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'notificationServer', 'debug');
 export function start(app:Application): void {
     startServer(app);
+    app.use('', healthRoutes);
     startQueue();
     startElasticSearch();
-    app.use('', healthRoutes);
 }
 
 async function startQueue(): Promise<void>{
@@ -20,7 +21,7 @@ async function startQueue(): Promise<void>{
 }
 
 function startElasticSearch(): void {
-
+    checkConnection();
 }
 
 function startServer(app:Application): void {
