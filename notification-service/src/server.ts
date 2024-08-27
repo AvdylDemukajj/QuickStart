@@ -23,6 +23,9 @@ export function start(app:Application): void {
 async function startQueue(): Promise<void>{
     const emailChannel: Channel = await createConnection() as Channel;
     await consumeAuthEmailMessages(emailChannel);
+    await emailChannel.assertExchange('quickstart-email-notification', 'direct');
+    const message = JSON.stringify({name: 'quickstart', service: 'notification service'});
+    emailChannel.publish('quickstart-email-notification','auth-email', Buffer.from(message));
 }
 
 function startElasticSearch(): void {
