@@ -22,6 +22,8 @@ async function consumeAuthEmailMessages(channel: Channel): Promise<void> {
 
         channel.consume(quickStartQueue.queue, async (msg: ConsumeMessage | null) => {
             console.log(JSON.parse(msg!.content.toString()));
+
+            channel.ack(msg!);
         });
     } catch (error) {
         log.log('error', 'Notification Serive EmailConsumer consumeAuthEmailMessages() method error:' ,error);
